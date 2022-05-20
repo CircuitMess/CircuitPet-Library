@@ -21,11 +21,11 @@ void CircuitPetImpl::begin(){
 
 }
 
-const InputGPIO& CircuitPetImpl::getInput() const{
+InputGPIO& CircuitPetImpl::getInput(){
 	return input;
 }
 
-const Display& CircuitPetImpl::getDisplay() const{
+Display& CircuitPetImpl::getDisplay(){
 	return display;
 }
 

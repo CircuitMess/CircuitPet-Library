@@ -14,8 +14,8 @@ public:
 
 	void begin();
 
-	const InputGPIO& getInput() const;
-	const Display& getDisplay() const;
+	InputGPIO& getInput();
+	Display& getDisplay();
 
 private:
 	Display display;

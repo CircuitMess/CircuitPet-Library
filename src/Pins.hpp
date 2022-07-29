@@ -10,4 +10,6 @@
 #define RGB_G
 #define RGB_B
 
+#define PIN_BL
+
 #endif //CIRCUITPET_LIBRARY_PINS_HPP

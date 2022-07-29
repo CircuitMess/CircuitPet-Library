@@ -7,6 +7,7 @@
 #include "Pins.hpp"
 #include <Display/Display.h>
 #include <Input/InputGPIO.h>
+#include "RGBLed.h"
 
 class CircuitPetImpl {
 public:

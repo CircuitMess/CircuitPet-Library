@@ -17,6 +17,8 @@ void CircuitPetImpl::begin(){
 	display.clear(TFT_BLACK);
 	display.commit();
 
+	RGB.begin();
+
 	LoopManager::addListener(&input);
 
 }

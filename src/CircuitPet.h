@@ -6,16 +6,17 @@
 #include <Loop/LoopListener.h>
 #include "Pins.hpp"
 #include <Display/Display.h>
-#include <Input/InputGPIO.h>
+//#include <Input/InputGPIO.h>
+#include <Input/InputShift.h>
 #include "RGBLed.h"
 
 class CircuitPetImpl {
 public:
 	CircuitPetImpl();
 
-	void begin();
+	void begin(bool backlight = true);
 
-	InputGPIO* getInput();
+	Input* getInput();
 	Display* getDisplay();
 
 	/**
@@ -47,7 +48,8 @@ public:
 
 private:
 	Display display;
-	InputGPIO input;
+//	InputGPIO input;
+	InputShift input;
 
 	bool pwmInited = false;
 	void initPWM();

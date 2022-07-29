@@ -6,17 +6,23 @@
 
 CircuitPetImpl CircuitPet;
 
-CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -1){
+CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3), input(23, 22, 21, 16){
 
 }
 
-void CircuitPetImpl::begin(){
+void CircuitPetImpl::begin(bool backlight){
 
 	SPIFFS.begin();
 
 	display.begin();
+	display.getTft()->setRotation(1);
+	display.swapBytes(false);
 	display.clear(TFT_BLACK);
 	display.commit();
+
+	Settings.begin();
+
+	input.begin();
 
 	RGB.begin();
 
@@ -25,9 +31,12 @@ void CircuitPetImpl::begin(){
 
 	LoopManager::addListener(&input);
 
+	if(backlight){
+		fadeIn();
+	}
 }
 
-InputGPIO* CircuitPetImpl::getInput(){
+Input* CircuitPetImpl::getInput(){
 	return &input;
 }
 

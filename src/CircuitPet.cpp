@@ -27,12 +27,12 @@ void CircuitPetImpl::begin(){
 
 }
 
-InputGPIO& CircuitPetImpl::getInput(){
-	return input;
+InputGPIO* CircuitPetImpl::getInput(){
+	return &input;
 }
 
-Display& CircuitPetImpl::getDisplay(){
-	return display;
+Display* CircuitPetImpl::getDisplay(){
+	return &display;
 }
 
 void CircuitPetImpl::initPWM(){

@@ -15,8 +15,8 @@ public:
 
 	void begin();
 
-	InputGPIO& getInput();
-	Display& getDisplay();
+	InputGPIO* getInput();
+	Display* getDisplay();
 
 	/**
 	 * Set backlight brightness. Value 0 is minimum brightness so screen is still on.

@@ -3,6 +3,7 @@
 #include "Pins.hpp"
 #include <SPIFFS.h>
 #include "Settings.h"
+#include <Audio/Piezo.h>
 
 CircuitPetImpl CircuitPet;
 
@@ -25,6 +26,9 @@ void CircuitPetImpl::begin(bool backlight){
 	input.begin();
 
 	RGB.begin();
+
+	Piezo.begin(PIN_BUZZ);
+	Piezo.noTone();
 
 	pinMode(PIN_BL, OUTPUT);
 	digitalWrite(PIN_BL, 1);

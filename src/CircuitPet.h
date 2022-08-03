@@ -9,6 +9,7 @@
 //#include <Input/InputGPIO.h>
 #include <Input/InputShift.h>
 #include "RGBLed.h"
+#include <CMAudio.h>
 
 class CircuitPetImpl {
 public:

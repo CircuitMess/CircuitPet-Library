@@ -14,5 +14,6 @@
 #define RGB_B -1
 
 #define PIN_BL 32
+#define PIN_BUZZ 19
 
 #endif //CIRCUITPET_LIBRARY_PINS_HPP

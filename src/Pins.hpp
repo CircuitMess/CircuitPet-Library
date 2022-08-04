@@ -8,6 +8,8 @@
 
 #define BTN_A BTN_ENTER
 #define BTN_B BTN_BACK
+#define BTN_UP BTN_LEFT
+#define BTN_DOWN BTN_RIGHT
 
 #define RGB_R -1
 #define RGB_G -1

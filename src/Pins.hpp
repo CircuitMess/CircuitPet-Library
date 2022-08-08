@@ -1,21 +1,26 @@
 #ifndef CIRCUITPET_LIBRARY_PINS_HPP
 #define CIRCUITPET_LIBRARY_PINS_HPP
 
-#define BTN_LEFT 4
-#define BTN_RIGHT 5
-#define BTN_ENTER 6
-#define BTN_BACK 7
+#define BTN_A 32
+#define BTN_B 27
+#define BTN_C 26
+#define BTN_D 14
 
-#define BTN_A BTN_ENTER
-#define BTN_B BTN_BACK
-#define BTN_UP BTN_LEFT
-#define BTN_DOWN BTN_RIGHT
+#define BTN_LEFT BTN_A
+#define BTN_RIGHT BTN_B
+#define BTN_ENTER BTN_C
+#define BTN_BACK BTN_D
 
-#define RGB_R -1
-#define RGB_G -1
-#define RGB_B -1
+#define RGB_R 21
+#define RGB_G 22
+#define RGB_B 23
 
-#define PIN_BL 32
+#define PIN_BL 18
 #define PIN_BUZZ 19
+#define PIN_BATT 34
+#define PIN_CHARGE 35
+
+#define I2C_SDA 33
+#define I2C_SCL 25
 
 #endif //CIRCUITPET_LIBRARY_PINS_HPP

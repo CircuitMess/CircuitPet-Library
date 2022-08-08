@@ -17,6 +17,7 @@ void CircuitPetImpl::begin(bool backlight){
 
 	SPIFFS.begin();
 
+	display.getTft()->setPanel(CircuitPetDisplay::panel1());
 	display.begin();
 	display.getTft()->setRotation(3);
 	display.swapBytes(false);
@@ -25,7 +26,7 @@ void CircuitPetImpl::begin(bool backlight){
 
 	Settings.begin();
 
-	input.preregisterButtons({ BTN_A, BTN_B, BTN_C, BTN_D });
+	input.preregisterButtons({ BTN_A, BTN_B, BTN_LEFT, BTN_RIGHT });
 	LoopManager::addListener(&input);
 
 	RGB.begin();

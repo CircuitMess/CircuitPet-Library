@@ -6,8 +6,7 @@
 #include <Loop/LoopListener.h>
 #include "Pins.hpp"
 #include <Display/Display.h>
-//#include <Input/InputGPIO.h>
-#include <Input/InputShift.h>
+#include <Input/InputGPIO.h>
 #include "RGBLed.h"
 #include <CMAudio.h>
 
@@ -49,8 +48,7 @@ public:
 
 private:
 	Display display;
-//	InputGPIO input;
-	InputShift input;
+	InputGPIO input;
 
 	bool pwmInited = false;
 	void initPWM();

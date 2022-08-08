@@ -7,33 +7,35 @@
 
 CircuitPetImpl CircuitPet;
 
-CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3), input(23, 22, 21, 16){
+CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3){
 
 }
 
 void CircuitPetImpl::begin(bool backlight){
 
+	analogSetAttenuation(ADC_6db);
+
 	SPIFFS.begin();
 
 	display.begin();
-	display.getTft()->setRotation(1);
+	display.getTft()->setRotation(3);
 	display.swapBytes(false);
 	display.clear(TFT_BLACK);
 	display.commit();
 
 	Settings.begin();
 
-	input.begin();
+	input.preregisterButtons({ BTN_A, BTN_B, BTN_C, BTN_D });
+	LoopManager::addListener(&input);
 
 	RGB.begin();
+	RGB.setColor(Pixel::Black);
 
 	Piezo.begin(PIN_BUZZ);
 	Piezo.noTone();
 
 	pinMode(PIN_BL, OUTPUT);
 	digitalWrite(PIN_BL, 1);
-
-	LoopManager::addListener(&input);
 
 	if(backlight){
 		fadeIn();

@@ -10,6 +10,7 @@ public:
 
 private:
 	Pixel color = {0, 0, 0};
+	bool attached = false;
 };
 
 extern RGBLed RGB;

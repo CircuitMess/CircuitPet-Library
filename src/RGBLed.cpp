@@ -8,6 +8,9 @@ void RGBLed::begin(){
 	pinMode(RGB_R, OUTPUT);
 	pinMode(RGB_G, OUTPUT);
 	pinMode(RGB_B, OUTPUT);
+	digitalWrite(RGB_R, HIGH);
+	digitalWrite(RGB_G, HIGH);
+	digitalWrite(RGB_B, HIGH);
 
 	ledcSetup(0, 5000, 8);
 	ledcSetup(1, 5000, 8);
@@ -16,6 +19,7 @@ void RGBLed::begin(){
 	ledcAttachPin(RGB_R, 0);
 	ledcAttachPin(RGB_G, 1);
 	ledcAttachPin(RGB_B, 2);
+	attached = true;
 }
 
 const Pixel& RGBLed::getColor() const{
@@ -23,6 +27,27 @@ const Pixel& RGBLed::getColor() const{
 }
 
 void RGBLed::setColor(const Pixel& color){
+
+	if(color == Pixel::Black){
+		ledcDetachPin(RGB_R);
+		ledcDetachPin(RGB_G);
+		ledcDetachPin(RGB_B);
+
+		pinMode(RGB_R, OUTPUT);
+		pinMode(RGB_G, OUTPUT);
+		pinMode(RGB_B, OUTPUT);
+
+		digitalWrite(RGB_R, HIGH);
+		digitalWrite(RGB_G, HIGH);
+		digitalWrite(RGB_B, HIGH);
+
+		attached = false;
+	}else if(!attached){
+		attached = true;
+		ledcAttachPin(RGB_R, 0);
+		ledcAttachPin(RGB_G, 1);
+		ledcAttachPin(RGB_B, 2);
+	}
 	RGBLed::color = color;
 	ledcWrite(0, 255 - color.r);
 	ledcWrite(1, 255 - color.g);

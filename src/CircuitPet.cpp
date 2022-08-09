@@ -83,7 +83,7 @@ uint8_t CircuitPetImpl::mapDuty(uint8_t brightness){
 	return map(brightness, 0, 255, 240, 0);
 }
 
-void CircuitPetImpl::fadeOut(){
+void CircuitPetImpl::fadeOut(uint8_t d){
 	if(!pwmInited){
 		initPWM();
 	}
@@ -93,13 +93,13 @@ void CircuitPetImpl::fadeOut(){
 	for(int i = 0; i <= 255; i++){
 		uint8_t val = map(i, 0, 255, dutyOn, 255);
 		ledcWrite(6, val);
-		delay(2);
+		delay(d);
 	}
 
 	deinitPWM();
 }
 
-void CircuitPetImpl::fadeIn(){
+void CircuitPetImpl::fadeIn(uint8_t d){
 	if(!pwmInited){
 		initPWM();
 	}
@@ -109,6 +109,6 @@ void CircuitPetImpl::fadeIn(){
 	for(int i = 0; i <= 255; i++){
 		uint8_t val = map(i, 0, 255, 255, dutyOn);
 		ledcWrite(6, val);
-		delay(2);
+		delay(d);
 	}
 }

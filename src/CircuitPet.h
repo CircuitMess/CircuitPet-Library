@@ -29,12 +29,12 @@ public:
 	/**
 	 * Fades in from OFF to configured brightness.
 	 */
-	void fadeIn();
+	void fadeIn(uint8_t delay = 2);
 
 	/**
 	 * Fades out from configured brightness to OFF.
 	 */
-	void fadeOut();
+	void fadeOut(uint8_t delay = 2);
 
 	/**
 	 * Whether backlight is ON.

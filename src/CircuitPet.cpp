@@ -4,10 +4,11 @@
 #include <SPIFFS.h>
 #include "Settings.h"
 #include <Audio/Piezo.h>
+#include <ctime>
 
 CircuitPetImpl CircuitPet;
 
-CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3){
+CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3), rtc(I2C_BM8563_DEFAULT_ADDRESS, Wire){
 
 }
 
@@ -37,6 +38,28 @@ void CircuitPetImpl::begin(bool backlight){
 
 	pinMode(PIN_BL, OUTPUT);
 	digitalWrite(PIN_BL, 1);
+
+	// Init RTC
+	Wire.begin(I2C_SDA, I2C_SCL);
+	rtc.begin();
+
+	//check if power was cut
+	uint8_t regVal = rtc.ReadReg(0x0E); //Timer_control TD0 register is set to 1 after brownout
+	if(regVal & 1){
+		powerCutFlag = true;
+		setUnixTime(0);
+		rtc.WriteReg(0x0E, regVal & 0xFE);
+	}
+
+	//check rtc time, if outside unixtime or invalid, set to unixtime 0
+	I2C_BM8563_DateTypeDef dateStruct;
+	rtc.getDate(&dateStruct);
+	if(dateStruct.year < 1970 || dateStruct.year >= 2038 ||
+	   dateStruct.date < 1 || dateStruct.date > 31 ||
+	   dateStruct.month < 1 || dateStruct.month > 12){
+		setUnixTime(0);
+	}
+
 
 	if(backlight){
 		fadeIn();
@@ -111,4 +134,38 @@ void CircuitPetImpl::fadeIn(uint8_t d){
 		ledcWrite(6, val);
 		delay(d);
 	}
+}
+
+void CircuitPetImpl::setUnixTime(time_t unixtime){
+	std::tm* t = std::localtime(&unixtime);
+	I2C_BM8563_DateTypeDef dateStruct { (int8_t)t->tm_wday, (int8_t)(t->tm_mon + 1), (int8_t)t->tm_mday, (int16_t)(t->tm_year + 1900) };
+	I2C_BM8563_TimeTypeDef timeStruct { (int8_t)t->tm_hour, (int8_t)t->tm_min, (int8_t)t->tm_sec };
+
+	rtc.setDate(&dateStruct);
+	rtc.setTime(&timeStruct);
+}
+
+time_t CircuitPetImpl::getUnixTime(){
+
+	I2C_BM8563_DateTypeDef dateStruct;
+	I2C_BM8563_TimeTypeDef timeStruct;
+
+	// Get RTC
+	rtc.getDate(&dateStruct);
+	rtc.getTime(&timeStruct);
+
+	std::tm t { timeStruct.seconds,
+				timeStruct.minutes,
+				timeStruct.hours,
+				dateStruct.date,
+				dateStruct.month - 1,
+				dateStruct.year - 1900};
+
+
+	std::time_t time_stamp = mktime(&t);
+	return time_stamp;
+}
+
+bool CircuitPetImpl::powerCut() const{
+	return powerCutFlag;
 }

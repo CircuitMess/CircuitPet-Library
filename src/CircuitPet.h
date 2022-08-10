@@ -10,6 +10,7 @@
 #include "RGBLed.h"
 #include <CMAudio.h>
 #include "CircuitPetDisplay.h"
+#include <I2C_BM8563.h>
 
 class CircuitPetImpl {
 public:
@@ -47,9 +48,17 @@ public:
 	 */
 	void backlightOff();
 
+	time_t getUnixTime();
+	void setUnixTime(time_t unixtime);
+
+	bool powerCut() const;
+
 private:
 	Display display;
 	InputGPIO input;
+	I2C_BM8563 rtc;
+
+	bool powerCutFlag = false;
 
 	bool pwmInited = false;
 	void initPWM();

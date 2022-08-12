@@ -9,7 +9,7 @@ struct SettingsData {
 	uint32_t shutdownTime = 4;
 	uint8_t screenBrightness = 200;
 	bool sound = true;
-	bool RGBenable = true;
+	uint8_t RGBbrightness = 200;
 	bool hwTested = false;
 };
 

@@ -32,6 +32,7 @@ void CircuitPetImpl::begin(bool backlight){
 
 	RGB.begin();
 	RGB.setColor(Pixel::Black);
+	RGB.setBrightness(Settings.get().RGBbrightness);
 
 	Piezo.begin(PIN_BUZZ);
 	Piezo.noTone();

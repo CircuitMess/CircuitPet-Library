@@ -49,7 +49,17 @@ void RGBLed::setColor(const Pixel& color){
 		ledcAttachPin(RGB_B, 2);
 	}
 	RGBLed::color = color;
-	ledcWrite(0, 255 - color.r);
-	ledcWrite(1, 255 - color.g);
-	ledcWrite(2, 255 - color.b);
+
+	double mapped = pow((brightness / 255.0), 2);
+	ledcWrite(0, (255 - mapped*color.r));
+	ledcWrite(1, (255 - mapped*color.g));
+	ledcWrite(2, (255 - mapped*color.b));
+}
+
+uint8_t RGBLed::getBrightness() const{
+	return brightness;
+}
+
+void RGBLed::setBrightness(uint8_t brightness){
+	RGBLed::brightness = brightness;
 }

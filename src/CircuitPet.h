@@ -51,8 +51,6 @@ public:
 	time_t getUnixTime();
 	void setUnixTime(time_t unixtime);
 
-	bool powerCut() const;
-
 private:
 	Display display;
 	InputGPIO input;

@@ -10,6 +10,7 @@
 #include "RGBLed.h"
 #include <CMAudio.h>
 #include "CircuitPetDisplay.h"
+#include <Audio/ChirpSystem.h>
 #include <I2C_BM8563.h>
 
 class CircuitPetImpl {
@@ -71,6 +72,7 @@ private:
 };
 
 extern CircuitPetImpl CircuitPet;
+extern ChirpSystem Audio;
 
 
 #endif //CIRCUITPET_LIBRARY_CIRCUITPET_H

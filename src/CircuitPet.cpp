@@ -7,6 +7,7 @@
 #include <ctime>
 
 CircuitPetImpl CircuitPet;
+ChirpSystem Audio;
 
 CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3), rtc(I2C_BM8563_DEFAULT_ADDRESS, Wire){
 

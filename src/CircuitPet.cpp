@@ -5,6 +5,7 @@
 #include "Settings.h"
 #include <Audio/Piezo.h>
 #include <ctime>
+#include "Battery/BatteryService.h"
 
 CircuitPetImpl CircuitPet;
 
@@ -61,6 +62,9 @@ void CircuitPetImpl::begin(bool backlight){
 		setUnixTime(0);
 	}
 
+
+	pinMode(PIN_CHARGE, INPUT);
+	Battery.begin();
 
 	if(backlight){
 		fadeIn();
@@ -169,4 +173,24 @@ time_t CircuitPetImpl::getUnixTime(){
 
 bool CircuitPetImpl::powerCut() const{
 	return powerCutFlag;
+}
+
+void CircuitPetImpl::shutdown(){
+	fadeOut();
+
+
+	RGB.setColor(Pixel::Red);
+	delay(350);
+	RGB.setColor(Pixel::Black);
+	delay(700);
+	RGB.setColor(Pixel::Red);
+	delay(350);
+	RGB.setColor(Pixel::Black);
+
+	ledcDetachPin(PIN_BUZZ);
+	esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
+	esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
+	esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
+	esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_ALL);
+	esp_deep_sleep_start();
 }

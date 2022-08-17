@@ -53,6 +53,9 @@ public:
 
 	bool powerCut() const;
 
+	void shutdown();
+
+
 private:
 	Display display;
 	InputGPIO input;

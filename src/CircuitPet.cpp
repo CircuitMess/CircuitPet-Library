@@ -8,6 +8,7 @@
 #include "Battery/BatteryService.h"
 
 CircuitPetImpl CircuitPet;
+ChirpSystem Audio;
 
 CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3), rtc(I2C_BM8563_DEFAULT_ADDRESS, Wire){
 
@@ -44,14 +45,6 @@ void CircuitPetImpl::begin(bool backlight){
 	// Init RTC
 	Wire.begin(I2C_SDA, I2C_SCL);
 	rtc.begin();
-
-	//check if power was cut
-	uint8_t regVal = rtc.ReadReg(0x0E); //Timer_control TD0 register is set to 1 after brownout
-	if(regVal & 1){
-		powerCutFlag = true;
-		setUnixTime(0);
-		rtc.WriteReg(0x0E, regVal & 0xFE);
-	}
 
 	//check rtc time, if outside unixtime or invalid, set to unixtime 0
 	I2C_BM8563_DateTypeDef dateStruct;
@@ -169,10 +162,6 @@ time_t CircuitPetImpl::getUnixTime(){
 
 	std::time_t time_stamp = mktime(&t);
 	return time_stamp;
-}
-
-bool CircuitPetImpl::powerCut() const{
-	return powerCutFlag;
 }
 
 void CircuitPetImpl::shutdown(){

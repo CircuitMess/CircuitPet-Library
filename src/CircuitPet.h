@@ -10,6 +10,7 @@
 #include "RGBLed.h"
 #include <CMAudio.h>
 #include "CircuitPetDisplay.h"
+#include <Audio/ChirpSystem.h>
 #include <I2C_BM8563.h>
 
 class CircuitPetImpl {
@@ -51,10 +52,7 @@ public:
 	time_t getUnixTime();
 	void setUnixTime(time_t unixtime);
 
-	bool powerCut() const;
-
 	void shutdown();
-
 
 private:
 	Display display;
@@ -76,6 +74,7 @@ private:
 };
 
 extern CircuitPetImpl CircuitPet;
+extern ChirpSystem Audio;
 
 
 #endif //CIRCUITPET_LIBRARY_CIRCUITPET_H

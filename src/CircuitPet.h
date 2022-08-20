@@ -8,7 +8,6 @@
 #include <Display/Display.h>
 #include <Input/InputGPIO.h>
 #include "RGBLed.h"
-#include <CMAudio.h>
 #include "CircuitPetDisplay.h"
 #include <Audio/ChirpSystem.h>
 #include <I2C_BM8563.h>

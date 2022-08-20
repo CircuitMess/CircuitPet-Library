@@ -2,8 +2,6 @@
 #include "Pins.hpp"
 #include <Arduino.h>
 
-RGBLed RGB;
-
 void RGBLed::begin(){
 	pinMode(RGB_R, OUTPUT);
 	pinMode(RGB_G, OUTPUT);
@@ -12,9 +10,9 @@ void RGBLed::begin(){
 	digitalWrite(RGB_G, HIGH);
 	digitalWrite(RGB_B, HIGH);
 
-	ledcSetup(0, 5000, 8);
-	ledcSetup(1, 5000, 8);
-	ledcSetup(2, 5000, 8);
+	ledcSetup(0, 1000, 8);
+	ledcSetup(1, 1000, 8);
+	ledcSetup(2, 1000, 8);
 
 	ledcAttachPin(RGB_R, 0);
 	ledcAttachPin(RGB_G, 1);
@@ -26,7 +24,11 @@ const Pixel& RGBLed::getColor() const{
 	return color;
 }
 
-void RGBLed::setColor(const Pixel& color){
+void RGBLed::setColor(Pixel color){
+	double brightness = pow((double) this->brightness / 255.0, 2.0);
+	color.r = floor((float) color.r * brightness);
+	color.g = floor((float) color.g * brightness);
+	color.b = floor((float) color.b * brightness);
 
 	if(color == Pixel::Black){
 		ledcDetachPin(RGB_R);
@@ -47,13 +49,16 @@ void RGBLed::setColor(const Pixel& color){
 		ledcAttachPin(RGB_R, 0);
 		ledcAttachPin(RGB_G, 1);
 		ledcAttachPin(RGB_B, 2);
+
+		ledcSetup(0, 1000, 8);
+		ledcSetup(1, 1000, 8);
+		ledcSetup(2, 1000, 8);
 	}
 	RGBLed::color = color;
 
-	double mapped = pow((brightness / 255.0), 2);
-	ledcWrite(0, (255 - mapped*color.r));
-	ledcWrite(1, (255 - mapped*color.g));
-	ledcWrite(2, (255 - mapped*color.b));
+	ledcWrite(0, (255 - color.r));
+	ledcWrite(1, (255 - color.g));
+	ledcWrite(2, (255 - color.b));
 }
 
 uint8_t RGBLed::getBrightness() const{

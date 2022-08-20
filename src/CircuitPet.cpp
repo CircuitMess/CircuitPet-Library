@@ -9,6 +9,7 @@
 
 CircuitPetImpl CircuitPet;
 ChirpSystem Audio;
+RGBController RGB;
 
 CircuitPetImpl::CircuitPetImpl() : display(160, 128, -1, -3), rtc(I2C_BM8563_DEFAULT_ADDRESS, Wire){
 
@@ -32,9 +33,10 @@ void CircuitPetImpl::begin(bool backlight){
 	input.preregisterButtons({ BTN_A, BTN_B, BTN_LEFT, BTN_RIGHT });
 	LoopManager::addListener(&input);
 
-	RGB.begin();
-	RGB.setColor(Pixel::Black);
-	RGB.setBrightness(Settings.get().RGBbrightness);
+	led.begin();
+	led.setColor(Pixel::Black);
+	led.setBrightness(Settings.get().RGBbrightness);
+	RGB.begin(&led);
 
 	Piezo.begin(PIN_BUZZ);
 	Piezo.noTone();

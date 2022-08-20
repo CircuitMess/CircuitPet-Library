@@ -6,7 +6,7 @@ class RGBLed {
 public:
 	void begin();
 	const Pixel& getColor() const;
-	void setColor(const Pixel& color);
+	void setColor(Pixel color);
 	uint8_t getBrightness() const;
 	void setBrightness(uint8_t brightness);
 
@@ -16,8 +16,6 @@ private:
 
 	uint8_t brightness = 200;
 };
-
-extern RGBLed RGB;
 
 
 #endif //CIRCUITPET_LIBRARY_RGBLED_H

@@ -167,9 +167,6 @@ time_t CircuitPetImpl::getUnixTime(){
 }
 
 void CircuitPetImpl::shutdown(){
-	fadeOut();
-
-
 	RGB.setColor(Pixel::Red);
 	delay(350);
 	RGB.setColor(Pixel::Black);
@@ -179,6 +176,9 @@ void CircuitPetImpl::shutdown(){
 	RGB.setColor(Pixel::Black);
 
 	ledcDetachPin(PIN_BUZZ);
+	ledcDetachPin(RGB_R);
+	ledcDetachPin(RGB_G);
+	ledcDetachPin(RGB_B);
 	esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
 	esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
 	esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);

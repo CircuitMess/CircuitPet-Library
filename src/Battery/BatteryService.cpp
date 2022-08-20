@@ -25,7 +25,7 @@ void BatteryService::loop(uint micros){
 			measureCounter = 0;
 			measureSum = 0;
 
-			if(voltage < MIN_VOLT && !charging()){
+			if(getVoltage() < MIN_VOLT && !charging()){
 				CircuitPet.shutdown();
 				return;
 			}
@@ -43,7 +43,7 @@ void BatteryService::begin(){
 	voltage = mapReading(measureSum);
 	measureSum = 0;
 
-	if(voltage < MIN_VOLT && !charging()){
+	if(getVoltage() < MIN_VOLT && !charging()){
 		CircuitPet.shutdown();
 		return;
 	}

@@ -9,7 +9,9 @@
 #include <Input/InputGPIO.h>
 #include "RGBLed.h"
 #include "CircuitPetDisplay.h"
+#include "RGBController.h"
 #include <Audio/ChirpSystem.h>
+#include <Wire.h>
 #include <I2C_BM8563.h>
 
 class CircuitPetImpl {
@@ -55,6 +57,7 @@ private:
 	Display display;
 	InputGPIO input;
 	I2C_BM8563 rtc;
+	RGBLed led;
 
 	bool powerCutFlag = false;
 
@@ -72,6 +75,7 @@ private:
 
 extern CircuitPetImpl CircuitPet;
 extern ChirpSystem Audio;
+extern RGBController RGB;
 
 
 #endif //CIRCUITPET_LIBRARY_CIRCUITPET_H

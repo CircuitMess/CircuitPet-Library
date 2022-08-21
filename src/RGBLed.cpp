@@ -10,13 +10,13 @@ void RGBLed::begin(){
 	digitalWrite(RGB_G, HIGH);
 	digitalWrite(RGB_B, HIGH);
 
-	ledcSetup(0, 1000, 8);
-	ledcSetup(1, 1000, 8);
+	ledcSetup(4, 1000, 8);
 	ledcSetup(2, 1000, 8);
+	ledcSetup(3, 1000, 8);
 
-	ledcAttachPin(RGB_R, 0);
-	ledcAttachPin(RGB_G, 1);
-	ledcAttachPin(RGB_B, 2);
+	ledcAttachPin(RGB_R, 4);
+	ledcAttachPin(RGB_G, 2);
+	ledcAttachPin(RGB_B, 3);
 	attached = true;
 }
 
@@ -46,19 +46,19 @@ void RGBLed::setColor(Pixel color){
 		attached = false;
 	}else if(!attached){
 		attached = true;
-		ledcAttachPin(RGB_R, 0);
-		ledcAttachPin(RGB_G, 1);
-		ledcAttachPin(RGB_B, 2);
+		ledcAttachPin(RGB_R, 4);
+		ledcAttachPin(RGB_G, 2);
+		ledcAttachPin(RGB_B, 3);
 
-		ledcSetup(0, 1000, 8);
-		ledcSetup(1, 1000, 8);
+		ledcSetup(4, 1000, 8);
 		ledcSetup(2, 1000, 8);
+		ledcSetup(3, 1000, 8);
 	}
 	RGBLed::color = color;
 
-	ledcWrite(0, (255 - color.r));
-	ledcWrite(1, (255 - color.g));
-	ledcWrite(2, (255 - color.b));
+	ledcWrite(4, (255 - color.r));
+	ledcWrite(2, (255 - color.g));
+	ledcWrite(3, (255 - color.b));
 }
 
 uint8_t RGBLed::getBrightness() const{

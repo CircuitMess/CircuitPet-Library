@@ -25,12 +25,14 @@ public:
 	bool charging() const;
 
 private:
-	uint16_t voltage = 0; //in mV
-	static const uint16_t MeasureInterval;
-	static const uint16_t MeasureCount;
-	uint measureMicros = 0;
-	float measureSum = 0;
-	uint8_t measureCounter = 0;
+	static constexpr float MeasureInverval = 2;
+	static constexpr uint8_t MeasureCount = 30;
+
+	uint32_t measureVoltage = 0;
+	uint8_t measureCount = 0;
+	uint32_t measureTime = 0;
+
+	uint16_t voltage = 0;
 
 };
 

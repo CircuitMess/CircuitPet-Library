@@ -6,42 +6,42 @@
 
 BatteryService Battery;
 
-const uint16_t BatteryService::MeasureInterval = 10; //in seconds
-const uint16_t BatteryService::MeasureCount = 10; //in seconds
-
 uint16_t BatteryService::mapReading(uint16_t reading){
-	return map(reading, 1600, 1950, MIN_VOLT, MAX_VOLT);
-}
-
-void BatteryService::loop(uint micros){
-	measureMicros += micros;
-	if(measureMicros >= (MeasureInterval * 1000000) / MeasureCount){
-		measureMicros = 0;
-		measureSum += analogRead(PIN_BATT);
-		measureCounter++;
-		if(measureCounter == MeasureCount){
-			measureSum = measureSum / MeasureCount;
-			voltage = mapReading(measureSum);
-			measureCounter = 0;
-			measureSum = 0;
-
-			if(getVoltage() < MIN_VOLT && !charging()){
-				CircuitPet.shutdown();
-				return;
-			}
-		}
-	}
+	int mapped = map(reading, 1640, 1960, MIN_VOLT, MAX_VOLT);
+	return mapped;
 }
 
 void BatteryService::begin(){
 	LoopManager::addListener(this);
 	pinMode(PIN_BATT, INPUT);
-	for(int i = 0; i < 10; i++){
-		measureSum += analogRead(PIN_BATT);
+
+	for(int i = 0; i < MeasureCount; i++){
+		measureVoltage += analogRead(PIN_BATT);
 	}
-	measureSum = measureSum / MeasureCount;
-	voltage = mapReading(measureSum);
-	measureSum = 0;
+
+	voltage = mapReading(measureVoltage / MeasureCount);
+
+	measureVoltage = 0;
+	measureCount = 0;
+	measureTime = millis();
+
+	if(getVoltage() < MIN_VOLT && !charging()){
+		CircuitPet.shutdown();
+		return;
+	}
+}
+
+void BatteryService::loop(uint micros){
+	if(millis() - measureTime <= 1000.0f * MeasureInverval / MeasureCount) return;
+
+	measureVoltage += analogRead(PIN_BATT);
+	measureTime = millis();
+
+	if(++measureCount < MeasureCount) return;
+
+	voltage = mapReading(measureVoltage / MeasureCount);
+	measureVoltage = 0;
+	measureCount = 0;
 
 	if(getVoltage() < MIN_VOLT && !charging()){
 		CircuitPet.shutdown();

@@ -13,6 +13,7 @@ uint16_t BatteryService::mapReading(uint16_t reading){
 
 void BatteryService::begin(){
 	LoopManager::addListener(this);
+	pinMode(PIN_CHARGE, INPUT_PULLDOWN);
 	pinMode(PIN_BATT, INPUT);
 
 	for(int i = 0; i < MeasureCount; i++){

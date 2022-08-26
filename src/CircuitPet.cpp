@@ -58,7 +58,6 @@ void CircuitPetImpl::begin(bool backlight){
 	}
 
 
-	pinMode(PIN_CHARGE, INPUT);
 	Battery.begin();
 
 	if(backlight){

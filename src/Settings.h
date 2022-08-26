@@ -6,7 +6,7 @@
 #define SHUTDOWN_STEPS 5
 
 struct SettingsData {
-	uint32_t shutdownTime = 4;
+	uint32_t shutdownTime = 3;
 	uint8_t screenBrightness = 200;
 	bool sound = true;
 	uint8_t RGBbrightness = 200;

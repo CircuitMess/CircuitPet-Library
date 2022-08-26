@@ -54,6 +54,7 @@ public:
 	void setUnixTime(time_t unixtime);
 
 	void shutdown();
+	void sleep();
 
 private:
 	Display display;

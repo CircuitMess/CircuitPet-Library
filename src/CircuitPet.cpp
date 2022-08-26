@@ -184,3 +184,27 @@ void CircuitPetImpl::shutdown(){
 	esp_sleep_disable_wakeup_source(ESP_SLEEP_WAKEUP_ALL);
 	esp_deep_sleep_start();
 }
+
+void CircuitPetImpl::sleep(){
+	Piezo.noTone();
+	RGB.setColor(Pixel::Black);
+
+	esp_sleep_enable_gpio_wakeup();
+	gpio_wakeup_enable((gpio_num_t) BTN_LEFT, GPIO_INTR_LOW_LEVEL);
+	gpio_wakeup_enable((gpio_num_t) BTN_RIGHT, GPIO_INTR_LOW_LEVEL);
+	gpio_wakeup_enable((gpio_num_t) BTN_ENTER, GPIO_INTR_LOW_LEVEL);
+	gpio_wakeup_enable((gpio_num_t) BTN_BACK, GPIO_INTR_LOW_LEVEL);
+
+	esp_sleep_enable_timer_wakeup(172800000000); // 2 days
+
+	fadeOut();
+	esp_light_sleep_start();
+
+	auto cause = esp_sleep_get_wakeup_cause();
+	if(cause == ESP_SLEEP_WAKEUP_TIMER){
+		shutdown();
+		return;
+	}
+
+	fadeIn();
+}

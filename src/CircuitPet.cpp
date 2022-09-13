@@ -195,7 +195,8 @@ void CircuitPetImpl::sleep(){
 	gpio_wakeup_enable((gpio_num_t) BTN_ENTER, GPIO_INTR_LOW_LEVEL);
 	gpio_wakeup_enable((gpio_num_t) BTN_BACK, GPIO_INTR_LOW_LEVEL);
 
-	esp_sleep_enable_timer_wakeup(172800000000); // 2 days
+	auto perc = std::max(Battery.getPercentage(), (uint8_t) 10);
+	esp_sleep_enable_timer_wakeup((172800000000 / 100) * perc); // 2 days
 
 	fadeOut();
 	esp_light_sleep_start();

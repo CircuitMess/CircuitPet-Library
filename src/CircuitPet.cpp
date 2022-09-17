@@ -146,23 +146,36 @@ void CircuitPetImpl::setUnixTime(time_t unixtime){
 
 time_t CircuitPetImpl::getUnixTime(){
 
+	std::time_t timestampCandidates[RTCRedundancy];
 	I2C_BM8563_DateTypeDef dateStruct;
 	I2C_BM8563_TimeTypeDef timeStruct;
 
-	// Get RTC
-	rtc.getDate(&dateStruct);
-	rtc.getTime(&timeStruct);
+	for(uint8_t i = 0; i < RTCRedundancy; i++){
+		// Get RTC
+		rtc.getDate(&dateStruct);
+		rtc.getTime(&timeStruct);
 
-	std::tm t { timeStruct.seconds,
-				timeStruct.minutes,
-				timeStruct.hours,
-				dateStruct.date,
-				dateStruct.month - 1,
-				dateStruct.year - 1900};
+		std::tm t { timeStruct.seconds,
+					timeStruct.minutes,
+					timeStruct.hours,
+					dateStruct.date,
+					dateStruct.month - 1,
+					dateStruct.year - 1900};
 
+		timestampCandidates[i] = mktime(&t);
+	}
 
-	std::time_t time_stamp = mktime(&t);
-	return time_stamp;
+	uint8_t votes[RTCRedundancy] = {0};
+	for(int i = 0; i < RTCRedundancy; ++i){
+		for(int j = 0; j < RTCRedundancy; ++j){
+			if(i == j) continue;
+			if(abs(difftime(timestampCandidates[i], timestampCandidates[j])) <= 1.0f){
+				votes[i]++;
+			}
+		}
+	}
+
+	return timestampCandidates[*std::max_element(votes, votes+RTCRedundancy)];
 }
 
 void CircuitPetImpl::shutdown(){

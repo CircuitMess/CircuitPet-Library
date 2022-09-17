@@ -175,6 +175,13 @@ time_t CircuitPetImpl::getUnixTime(){
 		}
 	}
 
+	if(*std::max_element(votes, votes+RTCRedundancy) < 4){
+		uint8_t mistakeNum = 3 - *std::max_element(votes, votes+RTCRedundancy);
+		mistakes[mistakeNum]++;
+	}
+
+	reads++;
+
 	return timestampCandidates[*std::max_element(votes, votes+RTCRedundancy)];
 }
 

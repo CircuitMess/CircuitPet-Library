@@ -56,6 +56,8 @@ public:
 	void shutdown();
 	void sleep();
 
+	const I2C_BM8563& getRTC() const;
+
 private:
 	Display display;
 	InputGPIO input;

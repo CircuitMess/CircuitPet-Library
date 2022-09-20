@@ -223,3 +223,7 @@ void CircuitPetImpl::sleep(){
 
 	fadeIn();
 }
+
+const I2C_BM8563& CircuitPetImpl::getRTC() const{
+	return rtc;
+}

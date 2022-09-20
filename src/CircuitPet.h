@@ -78,7 +78,7 @@ private:
 	 */
 	static uint8_t mapDuty(uint8_t brightness);
 
-	constexpr static uint8_t RTCRedundancy = 7;
+	constexpr static uint8_t RTCRedundancy = 5;
 };
 
 extern CircuitPetImpl CircuitPet;

@@ -46,6 +46,7 @@ void CircuitPetImpl::begin(bool backlight){
 
 	// Init RTC
 	Wire.begin(I2C_SDA, I2C_SCL);
+	Wire.setClock(100000);
 	rtc.begin();
 
 	//check rtc time, if outside unixtime or invalid, set to unixtime 0
@@ -169,7 +170,7 @@ time_t CircuitPetImpl::getUnixTime(){
 	for(int i = 0; i < RTCRedundancy; ++i){
 		for(int j = 0; j < RTCRedundancy; ++j){
 			if(i == j) continue;
-			if(abs(difftime(timestampCandidates[i], timestampCandidates[j])) <= 1.0f){
+			if(abs(difftime(timestampCandidates[i], timestampCandidates[j])) <= 2.0f){
 				votes[i]++;
 			}
 		}

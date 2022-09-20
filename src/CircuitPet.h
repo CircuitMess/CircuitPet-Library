@@ -56,7 +56,7 @@ public:
 	void shutdown();
 	void sleep();
 
-	uint32_t mistakes[4]= {0};
+	uint32_t mistakes[8]= {0};
 	uint32_t reads = 0;
 
 private:

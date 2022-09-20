@@ -175,10 +175,16 @@ time_t CircuitPetImpl::getUnixTime(){
 		}
 	}
 
-	if(*std::max_element(votes, votes+RTCRedundancy) < 4){
-		uint8_t mistakeNum = 3 - *std::max_element(votes, votes+RTCRedundancy);
-		mistakes[mistakeNum]++;
+	size_t chosen = *std::max_element(votes, votes+RTCRedundancy);
+	int wrong = 0;
+	for(int i = 0; i < RTCRedundancy; i++){
+		if(i == chosen) continue;
+		if(abs(difftime(timestampCandidates[i], timestampCandidates[chosen])) > 2.0f){
+			wrong++;
+		}
 	}
+
+	mistakes[wrong]++;
 
 	reads++;
 
